@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\category;
 use App\Models\product;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -37,7 +38,28 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            '*'=>'required',
+            'product_image'=>'mimes:png,jpg'
+
+        ]);
+
+        $file_name = auth()->id() . '-' . time() . '.' . $request->file('product_image')->getClientOriginalExtension();
+        $img = Image::make($request->file('product_image'));
+        $img->save(base_path('public/upload/product_image/' . $file_name), 80);
+
+        $product = new product;
+        $product->product_title =$request->product_title;
+        $product->product_description =$request->product_description;
+        $product->product_price =$request->product_price;
+        $product->product_quantity =$request->product_quantity;
+        $product->product_category =$request->product_category;
+
+        $product->product_image =$file_name;
+        $product->save();
+        return back()->withSuccess('Product Create Successfull');
+
+
     }
 
     /**
@@ -46,9 +68,11 @@ class ProductController extends Controller
      * @param  \App\Models\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(product $product)
+    public function show()
     {
-        //
+        return view('admin.product.show',[
+            'products' =>product::latest()->paginate(30),
+        ]);
     }
 
     /**
