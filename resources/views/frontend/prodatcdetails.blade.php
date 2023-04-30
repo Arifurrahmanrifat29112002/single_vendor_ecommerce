@@ -20,7 +20,7 @@
       <link href="{{ asset('frontend/css') }}/style.css" rel="stylesheet" />
       <!-- responsive style -->
       <link href="{{ asset('frontend/css') }}/responsive.css" rel="stylesheet" />
-
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       {{-- @vite(['public/frontend/css/style.css']); --}}
 
    </head>
@@ -40,16 +40,64 @@
          @include('frontend.whysection')
       </section>
       <!-- end why section -->
-      <div class="row " >
-        <div class="card " style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="row">
+        <div class="card m-auto" style="width: 18rem;">
+            <img class="card-img-top" src="{{ asset('upload/product_image') }}/{{ $product->product_image}}" alt="Card image cap" width="" height="220px">
             <div class="card-body">
-              <h5 class="card-title">{{ $product->product_title}}</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <h4 class="card-title">{{ $product->product_title }}</h4>
+              @if ($product->product_price != null)
+              <h6>
+                price {{ $product->discound_price }} tk
+               </h6>
+
+               <h6  style="text-decoration:line-through">
+                price {{ $product->product_price }} tk
+               </h6>
+              @else
+              <h6 >
+                price {{ $product->product_price }} tk
+               </h6>
+              @endif
+              <p class="card-text">Product Category: {{ $product->product_category }}</p>
+              <p class="card-text">Product details: {{ $product->product_description }}</p>
+              <p class="card-text">Available Quentaty: {{ $product->product_quantity }}</p>
+              <a href="" class="btn btn-primary">Add to Card</a>
             </div>
           </div>
-      </div>
+
+    </div>
+    <h5 class="text-center m-2 ">Releted Products</h5>
+    <div class="row justify-content-center">
+
+
+        @foreach ($reletad_product as $product)
+        <div class="card col-md-3 m-1">
+            <img class="card-img-top" data-src="holder.js/100px160/" alt="100%x160" src="{{ asset('upload/product_image') }}/{{ $product->product_image}}" data-holder-rendered="true" style="height: 160px; width: 100%; display: block;">
+            <div class="card-body">
+              <h5 class="card-title">{{ $product->product_title }}</h5>
+              @if ($product->product_price != null)
+              <h6>
+                price {{ $product->discound_price }} tk
+               </h6>
+
+               <h6  style="text-decoration:line-through">
+                price {{ $product->product_price }} tk
+               </h6>
+              @else
+              <h6 >
+                price {{ $product->product_price }} tk
+               </h6>
+              @endif
+              <div class="btn-group" role="group" aria-label="...">
+                <a href="{{ route('product.details',['id'=>$product->id]) }}" class="btn btn-warning">Details</a>
+                <a href="" class="btn btn-primary ml-1">Add to card</a>
+              </div>
+            </div>
+          </div>
+        @endforeach
+
+
+    </div>
 
 
 
@@ -74,5 +122,8 @@
       <script src="{{ asset('frontend') }}/js/bootstrap.js"></script>
       <!-- custom js -->
       <script src="{{ asset('frontend') }}/js/custom.js"></script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
    </body>
 </html>

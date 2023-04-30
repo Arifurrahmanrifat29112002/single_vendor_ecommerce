@@ -159,7 +159,13 @@ class ProductController extends Controller
     public function details($id)
     {
       $product = product::find($id);
-        return view('frontend.prodatcdetails',compact('product'));
+      $category = $product->product_category;
+      $reletad_product = product::where('product_category',$category)->get();
+        return view('frontend.prodatcdetails',compact('product','reletad_product'));
+    }
+    public function addtocard(Request $request, $id)
+    {
+        return $request;
     }
 
 }

@@ -16,6 +16,11 @@
                      <a href="" class="option2">
                      Buy Now
                      </a>
+                     <form action="{{ route('addtocard',['id'=>$product_info->id]) }}" method="post" class="justify-content-center">
+                        @csrf
+                        <input type="number" min="1" name="quantity" value="1" hidden>
+                        <button type="submit" class="btn btn-primary ">Add to card</button>
+                     </form>
                   </div>
                </div>
                <div class="img-box">
