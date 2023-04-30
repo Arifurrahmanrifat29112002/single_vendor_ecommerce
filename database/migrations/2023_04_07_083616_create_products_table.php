@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('product_title');
             $table->string('product_description');
             $table->integer('product_price');
+            $table->integer('discound_price')->nullable();
             $table->string('product_quantity');
             $table->string('product_category');
             $table->string('product_image');

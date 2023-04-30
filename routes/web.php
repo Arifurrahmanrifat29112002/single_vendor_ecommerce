@@ -38,6 +38,14 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         Route::get('create/product/', 'create')->name('product.create');
         Route::post('create/product/', 'store')->name('product.store');
         Route::get('show/product/', 'show')->name('product.show');
+        Route::get('edit/product/{id}', 'edit')->name('product.edit');
+        Route::post('edit/product/{id}', 'update')->name('product.update');
+        Route::get('destroy/product/{id}', 'destroy')->name('product.destroy');
+        Route::get('restore/product/{id}', 'restore')->name('product.restore');
+        Route::get('delete/product/{id}', 'delete')->name('product.delete');
+
+
+        Route::get('product/details/{id}', 'details')->name('product.details');
 
     });
 });

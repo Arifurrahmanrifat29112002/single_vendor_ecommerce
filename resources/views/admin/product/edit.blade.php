@@ -38,19 +38,19 @@
                                         </ul>
                                     @endforeach
                                 @endif
-                                <form class="forms-sample" action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+                                <form class="forms-sample" action="{{ route('product.update',['id'=>$product->id]) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                   <div class="form-group row">
                                     <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Product Title</label>
                                     <div class="col-sm-9">
-                                      <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Product Title" name="product_title">
+                                      <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Product Title" name="product_title" value="{{ $product->product_title }}">
                                     </div>
                                   </div>
                                   <div class="form-group row">
                                     <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Product Category</label>
                                     <div class="col-sm-9">
                                       <select class="form-control" name="product_category"  id="">
-                                        <option class="text-light" value="">select a category</option>
+                                        <option class="text-light" value="{{ $product->product_category }}" selected>{{ $product->product_category }}</option>
                                         @foreach ($category as $category)
                                         <option class="text-light" value="{{ $category->category_name }}" >{{ $category->category_name }}</option>
                                         @endforeach
@@ -60,35 +60,37 @@
                                   <div class="form-group row">
                                     <label for="exampleInputMobile" class="col-sm-3 col-form-label">Product Price</label>
                                     <div class="col-sm-9">
-                                      <input type="number" class="form-control" min="0" id="exampleInputMobile" placeholder="Product Price" name="product_price">
+                                      <input type="number" class="form-control" min="0" id="exampleInputMobile" placeholder="Product Price" name="product_price" value="{{ $product->product_price }}">
                                     </div>
                                   </div>
                                   <div class="form-group row">
                                     <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Discount Price</label>
                                     <div class="col-sm-9">
-                                      <input type="number" class="form-control" min="0" id="exampleInputPassword2" placeholder="Discount Price" name="discound_price">
+                                      <input type="number" class="form-control" min="0" id="exampleInputPassword2" placeholder="Discount Price" name="discound_price" value="{{ $product->discound_price }}">
                                     </div>
                                   </div>
                                   <div class="form-group row">
                                     <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Product Quantity</label>
                                     <div class="col-sm-9">
-                                      <input type="number" class="form-control" min="0" id="exampleInputConfirmPassword2" placeholder="Product Quantity" name="product_quantity">
+                                      <input type="number" class="form-control" min="0" id="exampleInputConfirmPassword2" placeholder="Product Quantity" name="product_quantity" value="{{ $product->product_quantity }}">
                                     </div>
                                   </div>
                                   <div class="form-group row">
+
                                     <label for="exampleInputConfirm" class="col-sm-3 col-form-label">Product Img</label>
                                     <div class="col-sm-9">
+                                        <img src="{{ asset('upload/product_image') }}/{{ $product->product_image}}" alt="" style="width: 120px;height:120px" class="m-1">
                                       <input type="file" class="form-control" min="0" id="exampleInputConfirm" name="product_image">
                                     </div>
                                   </div>
                                   <div class="form-group row">
                                     <label for="exampleFormControlTextarea1" class="col-sm-3 col-form-label">Product Description</label>
                                     <div class="col-sm-9">
-                                        <textarea class="form-control text-light" id="exampleFormControlTextarea1" name="product_description"></textarea>
+                                        <textarea class="form-control text-light" id="exampleFormControlTextarea1" name="product_description">{{ $product->product_description }}</textarea>
                                     </div>
                                   </div>
 
-                                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                  <button type="submit" class="btn btn-primary me-2">Update</button>
                                 </form>
                               </div>
                             </div>

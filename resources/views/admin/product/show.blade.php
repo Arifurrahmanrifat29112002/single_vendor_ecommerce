@@ -19,8 +19,8 @@
             <div class="main-panel">
                 <div class="content-wrapper">
 
-                    <div class="row justify-content-center">
-                        <div class="col-md-8 grid-margin stretch-card">
+                    <div class="row ">
+                        <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 @if (session()->has('success'))
                                         <div class="alert alert-success">
@@ -28,68 +28,108 @@
                                         </div>
                                 @endif
                               <div class="card-body">
-                                <h4 class="card-title">Product Create</h4>
-                                @if($errors->any())
-                                    @foreach ($errors->all() as $error)
-                                        <ul>
-                                            <li>
-                                                <p class="text-danger">{{ $error }}</p>
-                                            </li>
-                                        </ul>
-                                    @endforeach
-                                @endif
-                                <form class="forms-sample" action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                  <div class="form-group row">
-                                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Product Title</label>
-                                    <div class="col-sm-9">
-                                      <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Product Title" name="product_title">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Product Category</label>
-                                    <div class="col-sm-9">
-                                      <select class="form-control" name="product_category"  id="">
-                                        <option class="text-light" value="">select a category</option>
-                                        @foreach ($category as $category)
-                                        <option class="text-light" value="{{ $category->category_name }}" >{{ $category->category_name }}</option>
-                                        @endforeach
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="exampleInputMobile" class="col-sm-3 col-form-label">Product Price</label>
-                                    <div class="col-sm-9">
-                                      <input type="number" class="form-control" min="0" id="exampleInputMobile" placeholder="Product Price" name="product_price">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Discount Price</label>
-                                    <div class="col-sm-9">
-                                      <input type="number" class="form-control" min="0" id="exampleInputPassword2" placeholder="Discount Price" name="product_description">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Product Quantity</label>
-                                    <div class="col-sm-9">
-                                      <input type="number" class="form-control" min="0" id="exampleInputConfirmPassword2" placeholder="Product Quantity" name="product_quantity">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="exampleInputConfirm" class="col-sm-3 col-form-label">Product Img</label>
-                                    <div class="col-sm-9">
-                                      <input type="file" class="form-control" min="0" id="exampleInputConfirm" name="product_image">
-                                    </div>
-                                  </div>
-                                  <div class="form-group row">
-                                    <label for="exampleFormControlTextarea1" class="col-sm-3 col-form-label">Product Description</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-light" id="exampleFormControlTextarea1" name="product_description"></textarea>
-                                    </div>
-                                  </div>
 
-                                  <button type="submit" class="btn btn-primary me-2">Submit</button>
-                                </form>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title">Products</h4>
+
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#largeModal">
+                                       Trash Bin
+                                     </button>
+                                </div>
+                                <div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content  bg-dark">
+                                        <div class="modal-header ">
+                                        <h5 class="modal-title" id="exampleModalLabel3">Trash Bin</h5>
+                                        <button type="button"class="btn-close"data-bs-dismiss="modal"aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body m-1">
+                                            <div class="table-responsive text-nowrap">
+                                                <table class="table table-dark">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th> Category </th>
+                                                        <th> Quantity </th>
+                                                        <th> Price </th>
+
+                                                        <th> Action </th>
+                                                      </tr>
+                                                </thead>
+
+                                                    @foreach ($product_trashed as $treshed_info)
+                                                    <tr>
+                                                        <td>{{ $treshed_info->product_title }}</td>
+                                                        <td>{{ $treshed_info->product_category }}</td>
+                                                        <td>{{ $treshed_info->product_quantity }}</td>
+                                                        <td>{{ $treshed_info->product_price}}</td>
+
+                                                        <td>
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <a href="{{ route('product.restore',['id'=>$treshed_info->id]) }}" class="btn btn-outline-secondary">
+                                                                <i class="mdi mdi-reload"></i>
+                                                                </a>
+                                                                <a href="{{ route('product.delete',['id'=>$treshed_info->id]) }}" class="btn btn-outline-secondary">
+                                                                <i class="mdi mdi-delete-forever"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                      </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                  <table class="table table-bordered">
+                                    <thead>
+                                      <tr>
+                                        <th>Name</th>
+                                        <th> Category </th>
+                                        <th> Quantity </th>
+                                        <th> Price </th>
+                                        <th> Image </th>
+                                        <th> Action </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($product as $product_info)
+                                        <tr>
+                                            <td>{{ $product_info->product_title }}</td>
+                                            <td>{{ $product_info->product_category }}</td>
+                                            <td>{{ $product_info->product_quantity }}</td>
+                                            <td>{{ $product_info->product_price}}</td>
+                                            <td class="">
+                                                <img src="{{ asset('upload/product_image') }}/{{ $product_info->product_image}}" alt="" style="width: 120px;height:120px">
+                                              </td>
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="{{ route('product.edit',['id'=>$product_info->id]) }}" class="btn btn-outline-secondary">
+                                                      <i class="mdi mdi-border-color"></i>
+                                                    </a>
+                                                    <a href="{{ route('product.destroy',['id'=>$product_info->id]) }}" class="btn btn-outline-secondary">
+                                                      <i class="mdi mdi-delete"></i>
+                                                    </a>
+                                                  </div>
+                                            </td>
+
+                                        </tr>
+                                        @endforeach
+
+
+                                    </tbody>
+                                  </table>
+                                  <div class="d-flex justify-content-center mt-3">
+
+                                    {{ $product->links('pagination::bootstrap-5') }}
+                                </div>
+                                </div>
                               </div>
                             </div>
                           </div>

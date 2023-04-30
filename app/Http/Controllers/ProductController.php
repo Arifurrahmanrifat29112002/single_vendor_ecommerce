@@ -26,8 +26,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+
        $category = category::all();
-        return view('admin.product.create',compact('category'));
+       return view('admin.product.create',compact('category'));
     }
 
     /**
@@ -39,7 +40,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            '*'=>'required',
+            'product_title' => 'required',
+            'product_description' => 'required',
+            'product_price' => 'required',
+            'product_quantity' => 'required',
+            'product_category' => 'required',
             'product_image'=>'mimes:png,jpg'
 
         ]);
@@ -53,6 +58,7 @@ class ProductController extends Controller
         $product->product_description =$request->product_description;
         $product->product_price =$request->product_price;
         $product->product_quantity =$request->product_quantity;
+        $product->discound_price =$request->discound_price;
         $product->product_category =$request->product_category;
 
         $product->product_image =$file_name;
@@ -70,9 +76,9 @@ class ProductController extends Controller
      */
     public function show()
     {
-        return view('admin.product.show',[
-            'products' =>product::latest()->paginate(30),
-        ]);
+        $product_trashed = product::onlyTrashed()->get();
+        $product = product::latest()->paginate(2);
+        return view('admin.product.show',compact('product','product_trashed'));
     }
 
     /**
@@ -81,9 +87,11 @@ class ProductController extends Controller
      * @param  \App\Models\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(product $product)
+    public function edit($id)
     {
-        //
+       $product = product::find($id);
+       $category = category::all();
+        return view("admin.product.edit",compact('product','category'));
     }
 
     /**
@@ -93,9 +101,37 @@ class ProductController extends Controller
      * @param  \App\Models\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, product $product)
+    public function update(Request $request,$id)
     {
-        //
+        $request->validate([
+            'product_title' => 'required',
+            'product_description' => 'required',
+            'product_price' => 'required',
+            'product_quantity' => 'required',
+            'product_category' => 'required',
+            'product_image'=>'mimes:png,jpg'
+        ]);
+      $product_img =  product::find($id)->value('product_image');
+
+        product::find($id)->update([
+            'product_title' => $request->product_title,
+            'product_description' => $request->product_description,
+            'product_price' => $request->product_price,
+            'product_quantity' => $request->product_quantity,
+            'discound_price' => $request->discound_price,
+            'product_category' => $request->product_category,
+        ]);
+        if($request->hasFile('product_image')){
+            //product image update
+            unlink(base_path('public/upload/product_image/' .$product_img ));
+            $file_name = auth()->id() . '-' . time() . '.' . $request->file('product_image')->getClientOriginalExtension();
+            $img = Image::make($request->file('product_image'));
+            $img->save(base_path('public/upload/product_image/' . $file_name), 80);
+            product::find($id)->update([
+                "product_image" => $file_name,
+            ]);
+        }
+        return back()->withSuccess('update successful');
     }
 
     /**
@@ -104,8 +140,26 @@ class ProductController extends Controller
      * @param  \App\Models\product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(product $product)
+    public function destroy($id)
     {
-        //
+        product::find($id)->delete();
+        return back()->withSuccess('product temp delete successful');
     }
+
+    public function restore($id)
+    {
+        product::onlyTrashed()->find($id)->restore();
+        return back()->withSuccess('product restore successful');
+    }
+    public function delete($id)
+    {
+        product::onlyTrashed()->find($id)->forceDelete();
+        return back()->withSuccess('product delete successful');
+    }
+    public function details($id)
+    {
+      $product = product::find($id);
+        return view('frontend.prodatcdetails',compact('product'));
+    }
+
 }
