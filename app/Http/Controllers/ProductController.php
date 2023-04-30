@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\category;
 use App\Models\product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
@@ -165,6 +166,14 @@ class ProductController extends Controller
     }
     public function addtocard(Request $request, $id)
     {
+        if (Auth::id()) {
+            return redirect()->back();
+            
+        }else {
+            return redirect('login');
+        }
+
+
         return $request;
     }
 
