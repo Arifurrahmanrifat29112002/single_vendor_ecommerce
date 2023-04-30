@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\addtocard;
 use App\Models\category;
 use App\Models\product;
 use Illuminate\Http\Request;
@@ -167,8 +168,30 @@ class ProductController extends Controller
     public function addtocard(Request $request, $id)
     {
         if (Auth::id()) {
-            return redirect()->back();
-            
+            $product = product::find($id);
+            $card = new addtocard;
+            $card->user_id = Auth::user()->id;
+            $card->name = Auth::user()->name;
+            $card->email = Auth::user()->email;
+            $card->phone = Auth::user()->phone;
+            $card->address = Auth::user()->address;
+            $card->product_title = $product->product_title;
+
+            if ($product->discound_price !=null) {
+                $card->price = $product->discound_price * $request->quantity;
+            }else{
+                $card->price = $product->product_price * $request->quantity;
+            }
+
+            $card->quentity = $request->quantity;
+            $card->image = $product->product_image;
+            $card->product_id = $product->id;
+
+            $card->save();
+            return back()->withSuccess('addtocard successful');
+
+
+
         }else {
             return redirect('login');
         }

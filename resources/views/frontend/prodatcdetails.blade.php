@@ -61,7 +61,13 @@
               <p class="card-text">Product Category: {{ $product->product_category }}</p>
               <p class="card-text">Product details: {{ $product->product_description }}</p>
               <p class="card-text">Available Quentaty: {{ $product->product_quantity }}</p>
-              <a href="" class="btn btn-primary">Add to Card</a>
+
+              <form action="{{ route('addtocard',['id'=>$product->id]) }}" method="post" class="justify-content-center">
+                @csrf
+                <input type="number" min="1" name="quantity" style="width: 40%">
+                <button type="submit" class="btn btn-primary " >Add to card</button>
+
+             </form>
             </div>
           </div>
 
