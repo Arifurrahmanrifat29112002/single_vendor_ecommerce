@@ -197,7 +197,23 @@ class ProductController extends Controller
         }
 
 
-        return $request;
+
+    }
+    public function showcard()
+    {
+        if (Auth::id()) {
+            $user = Auth::user()->id;
+        $cards = addtocard::where('user_id',$user)->get();
+        return view('frontend.addtocard',compact('cards'));
+
+        }else {
+            return redirect('login');
+        }
+    }
+    public function cardremove($id)
+    {
+        addtocard::find($id)->delete();
+        return back();
     }
 
 }

@@ -47,7 +47,8 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 
         Route::get('product/details/{id}', 'details')->name('product.details');
         Route::post('product/addtocard/{id}', 'addtocard')->name('addtocard');
-
+        Route::get('product/addtocard/', 'showcard')->name('showcard');
+        Route::post('product/addtocard/remove/{id}', 'cardremove')->name('cardremove');
     });
 });
 
