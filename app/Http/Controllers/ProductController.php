@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\addtocard;
 use App\Models\category;
+use App\Models\order;
 use App\Models\product;
+use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+
+use Stripe;
+use Stripe\BillingPortal\Session;
 
 class ProductController extends Controller
 {
@@ -204,7 +209,8 @@ class ProductController extends Controller
         if (Auth::id()) {
             $user = Auth::user()->id;
         $cards = addtocard::where('user_id',$user)->get();
-        return view('frontend.addtocard',compact('cards'));
+        $cards_count = addtocard::where('user_id',$user)->count();
+        return view('frontend.addtocard',compact('cards','cards_count'));
 
         }else {
             return redirect('login');
@@ -214,6 +220,83 @@ class ProductController extends Controller
     {
         addtocard::find($id)->delete();
         return back();
+    }
+    public function cashorder()
+    {
+
+         $data = addtocard::where('user_id',Auth::user()->id)->get();
+         foreach($data as $data){
+            $order = new order;
+            $order->user_id = $data->user_id;
+            $order->name = $data->name;
+            $order->email = $data->email;
+
+            $order->phone = $data->phone;
+
+            $order->address = $data->address;
+            $order->product_title = $data->product_title;
+            $order->price = $data->price;
+            $order->quentity = $data->quentity;
+
+            $order->image = $data->image;
+
+            $order->product_id = $data->product_id;
+
+
+            $order->payment_status = 'cash on delivery';
+            $order->delivery_status = 'processing';
+            $order->save();
+
+            addtocard::find($data->id)->delete();
+
+
+         }
+         return redirect()->back()->with('message','we have recived your order. we will contact with you soon');
+    }
+    public function stripe($total_price)
+    {
+        return view('frontend.stripe',compact('total_price'));
+    }
+
+    public function stripePost(Request $request,$total_price)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        Stripe\Charge::create ([
+                "amount" => $total_price * 100,
+                "currency" => "USD",
+                "source" => $request->stripeToken,
+                "description" => "Thenks for payment"
+        ]);
+
+        $data = addtocard::where('user_id',Auth::user()->id)->get();
+         foreach($data as $data){
+            $order = new order;
+            $order->user_id = $data->user_id;
+            $order->name = $data->name;
+            $order->email = $data->email;
+
+            $order->phone = $data->phone;
+
+            $order->address = $data->address;
+            $order->product_title = $data->product_title;
+            $order->price = $data->price;
+            $order->quentity = $data->quentity;
+
+            $order->image = $data->image;
+
+            $order->product_id = $data->product_id;
+
+
+            $order->payment_status = 'Paid';
+            $order->delivery_status = 'processing';
+            $order->save();
+
+            addtocard::find($data->id)->delete();
+
+
+         }
+        return redirect("/")->with('success', 'Payment successful!');
     }
 
 }

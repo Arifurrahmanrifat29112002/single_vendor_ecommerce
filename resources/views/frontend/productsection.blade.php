@@ -4,6 +4,7 @@
           Our <span>products</span>
        </h2>
     </div>
+    
     <div class="row">
         @foreach ($product as $product_info)
         <div class="col-sm-6 col-md-4 col-lg-4">

@@ -1,3 +1,4 @@
+
 <div class="slider_bg_box">
     <img src="{{ asset('frontend') }}/images/slider-bg.jpg" alt="">
  </div>
@@ -86,4 +87,5 @@
           <li data-target="#customCarousel1" data-slide-to="2"></li>
        </ol>
     </div>
+    
  </div>

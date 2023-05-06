@@ -38,6 +38,11 @@
          {{-- {{ $cards }} --}}
          <div class="card m-3">
             <div class="card-body">
+             @if (session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+             @endif
                 Address :{{ Auth::user()->address }},
 
                 phone Number :{{ Auth::user()->phone }}</p>
@@ -90,6 +95,17 @@
             </tbody>
           </table>
       </div>
+
+      @if ($cards_count != 0)
+      <div class="row justify-content-center m-3">
+        <div class="btn-group " role="group" aria-label="Second group">
+            <a href="{{ route('cashorder') }}"  class="btn btn-danger mr-2">cash on delivey</a>
+            <a href="{{ route('stripe',$total_price) }}" class="btn btn-primary">pay using card</a>
+
+          </div>
+      </div>
+      @endif
+
       </div>
 
       <footer>
