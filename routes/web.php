@@ -73,8 +73,13 @@ Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth','v
         Route::get('order/show/', 'index')->name('order.show');
         Route::get('order/show/deliverd/{id}', 'deliverd')->name('order.deliverd');
 
-
         Route::get('order/download/pdf/{id}', 'print_pdf')->name('download.pdf');//pdf download
+        //send mail
+        Route::get('order/sendMail/{id}', 'send_mail')->name('user.sendmail');
+
+        //send mail user
+        Route::get('order/send/mail/user/{id}','userMail')->name('send_user_mail');
+
     });
     /**
      * product controller

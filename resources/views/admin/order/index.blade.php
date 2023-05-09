@@ -41,6 +41,7 @@
                                       <th> Deliverd </th>
                                       <th> Date </th>
                                       <th> Print </th>
+                                      <th> Send Mail </th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -73,6 +74,10 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('download.pdf',['id'=>$order_info->id]) }}" class="btn btn-warning">PDF</a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('user.sendmail',['id'=>$order_info->id]) }}" class="btn btn-primary">Send Mail</a>
                                     </td>
 
                                   </tr>
