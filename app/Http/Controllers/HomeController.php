@@ -19,7 +19,8 @@ class HomeController extends Controller
         if ($auth_role == 'admin') {
             return view('admin.home');
         }else{
-            return view('frontend.userHome');
+            $product = product::all();
+            return view('frontend.userHome',compact('product'));
         }
     }
 }

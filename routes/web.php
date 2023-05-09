@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,4 +62,20 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 /**
  * /redirect
  */
-Route::get('/redirect',[HomeController::class,'redirect']);//dashbord main page
+Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth','verified');//dashbord main page
+
+
+
+ /**
+     * category controller
+     */
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('order/show/', 'index')->name('order.show');
+        Route::get('order/show/deliverd/{id}', 'deliverd')->name('order.deliverd');
+
+
+        Route::get('order/download/pdf/{id}', 'print_pdf')->name('download.pdf');//pdf download
+    });
+    /**
+     * product controller
+     */
