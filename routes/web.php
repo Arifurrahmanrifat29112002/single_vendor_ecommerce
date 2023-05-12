@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +80,19 @@ Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth','v
 
         //send mail user
         Route::get('order/send/mail/user/{id}','userMail')->name('send_user_mail');
+
+
+        //search result
+        // Route::get('/ordersearch', 'search')->name('ordersearch');
+
+
+        //user order show page
+        Route::get('show/user/orer/data','user_order_data')->name('user.order.data');
+        //user order cancle
+        Route::get('order/cancle/{id}','orderCacle')->name('order.cancle');
+
+        //admin order filter
+        Route::post('order/filter','filter')->name('order.filter');
 
     });
     /**

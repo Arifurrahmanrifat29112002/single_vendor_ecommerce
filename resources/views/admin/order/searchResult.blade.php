@@ -22,62 +22,7 @@
                         <div class="col-12 grid-margin">
                           <div class="card">
                             <div class="card-body">
-                              <h4 class="card-title">Order Status</h4>
-                              <form class="form-sample" action="{{ route('order.filter') }}" method="POST">
-                                @csrf
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Form Date</label>
-                                      <div class="col-sm-9">
-                                        <input type="date" class="form-control search" name="form_date">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">To Date</label>
-                                      <div class="col-sm-9">
-                                        <input type="date" class="form-control search" name="to_date">
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="row">
-
-                                  <div class="col-md-6">
-                                    <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Payment Status</label>
-                                      <div class="col-sm-9">
-                                        <select class="form-control text-light" name="payment_status">
-                                            <option value="">select Payment Status</option>
-                                            <option value="cash on delivery">cash on delivery</option>
-                                            <option value="Paid">Paid</option>
-                                        </select>
-
-
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group row">
-                                      <label class="col-sm-3 col-form-label">Delivery Status</label>
-                                      <div class="col-sm-9">
-                                        <select class="form-control text-light" name="delivery_status">
-                                            <option value="">select Delivery Status</option>
-                                            <option value="you canceled this order"> cancele order</option>
-                                            <option value="processing">processing</option>
-                                            <option value="deliverd">deliverd</option>
-                                        </select>
-
-
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <button type="reset" class="btn btn-danger mb-3">Reset</button>
-                                <button type="submit" class="btn btn-primary mb-3">Filter</button>
-                              </form>
+                              <h4 class="card-title">Order Search Result</h4>
                               <div class="table-responsive">
                                 <table class="table">
                                   <thead>
@@ -101,7 +46,7 @@
                                   </thead>
                                   <tbody class="alldata">
 
-                                 @foreach ($order as $order_info)
+                                 @foreach ($order_result as $order_info)
                                  <tr>
                                     <td><span class="ps-2">{{ $order_info->name }}</span></td>
                                     <td> {{ $order_info->email }} </td>
@@ -146,7 +91,7 @@
                                 </table>
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center mt-3">
-                                        {{ $order->links('pagination::bootstrap-5') }}
+
                                     </ul>
                                   </nav>
                               </div>
@@ -170,7 +115,6 @@
 
     @include('admin.script')
 
-    {{-- live search js code --}}
 
 </body>
 
