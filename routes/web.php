@@ -98,3 +98,12 @@ Route::get('/redirect',[HomeController::class,'redirect'])->middleware('auth','v
     /**
      * product controller
      */
+
+     /**
+     * category controller
+     */
+    Route::controller(HomeController::class)->group(function () {
+        Route::post('product/comment','comment')->name('product.comment');
+
+        Route::post('product/comment/reply','reply')->name('product.comment.reply');
+    });

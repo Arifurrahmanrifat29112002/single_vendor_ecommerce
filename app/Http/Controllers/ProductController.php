@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\addtocard;
 use App\Models\category;
+use App\Models\Comment;
 use App\Models\order;
 use App\Models\product;
+use App\Models\Reply;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -75,6 +75,32 @@
 
          </p>
       </div>
+      <!-- comment js code -->
+      <script type="text/javascript">
+        function reply(caller){
+            document.getElementById('commentId').value=$(caller).attr('data-Commentid');
+            $('.replyDiv').insertAfter($(caller));
+            $(caller).parent().parent().find('.replyDiv').show();
+        }
+
+        function reply_close(caller){
+          $('.replyDiv').hide();
+        }
+
+
+      </script>
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var scrollpos = localStorage.getItem('scrollpos');
+                if (scrollpos) window.scrollTo(0, scrollpos);
+            });
+
+            window.onbeforeunload = function(e) {
+                localStorage.setItem('scrollpos', window.scrollY);
+            };
+        </script>
       <!-- jQery -->
       <script src="{{ asset('frontend') }}/js/jquery-3.4.1.min.js"></script>
       <!-- popper js -->
