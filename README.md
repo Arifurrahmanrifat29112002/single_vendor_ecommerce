@@ -1,5 +1,12 @@
 simple single vendor ecommerce site 
 
+feature:
+1) multi auth
+2) create category
+3) create product [CRUD , trashbin]
+4) order [download pdf, user send mail ,filter] 
+5) frontend [comment system-send comment,reply comment] etc.
+
 ![sinvendor 1](https://github.com/Arifurrahmanrifat29112002/single_vendor_ecommerce/assets/98427204/d4534c20-7741-459b-bcb9-fe12095a03d8)
 ![sinvendor 2](https://github.com/Arifurrahmanrifat29112002/single_vendor_ecommerce/assets/98427204/97c78e70-7377-4594-b4b6-736d431436b8)
 ![sinvendor 3](https://github.com/Arifurrahmanrifat29112002/single_vendor_ecommerce/assets/98427204/1f63e8da-8c81-4120-958a-a3515908eddb)
